@@ -10,8 +10,14 @@ class MyApp extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(fontFamily: "Cairo"),
       title: "Idea",
       home: Start_Screen(),
+      routes: {
+        "go": (context) {
+          return Home();
+        }
+      },
     );
   }
 }
