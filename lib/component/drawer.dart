@@ -39,7 +39,9 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed("Categories");
+              },
               leading: Icon(
                 Icons.list,
                 color: Colors.blue,

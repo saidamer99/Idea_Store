@@ -1,3 +1,4 @@
+import 'package:app_idea/component/category_home.dart';
 import 'package:app_idea/component/drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
@@ -50,7 +51,15 @@ class _HomeState extends State<Home> {
                   indicatorBgPadding: 15,
                   dotBgColor: Colors.grey.withOpacity(0.1),
                 ),
-              )
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  "الأقسام",
+                  style: TextStyle(fontSize: 30, color: Colors.blue),
+                ),
+              ),
+              Container(height: 150, child: Categories_Home()),
             ],
           )),
     );

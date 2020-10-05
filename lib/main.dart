@@ -1,3 +1,4 @@
+import 'package:app_idea/pages/category.dart';
 import 'package:app_idea/pages/home.dart';
 import 'package:app_idea/pages/start.dart';
 import "package:flutter/material.dart";
@@ -16,6 +17,9 @@ class MyApp extends StatelessWidget {
       routes: {
         "go": (context) {
           return Home();
+        },
+        "Categories": (context) {
+          return Categories();
         }
       },
     );
