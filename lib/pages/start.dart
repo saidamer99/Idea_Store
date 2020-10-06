@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Start_Screen extends StatelessWidget {
+class Start_Screen extends StatefulWidget {
+  @override
+  _Start_ScreenState createState() => _Start_ScreenState();
+}
+
+class _Start_ScreenState extends State<Start_Screen> {
+  saveStart(bool isStart) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setBool('start', isStart);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -53,6 +69,7 @@ class Start_Screen extends StatelessWidget {
                             ],
                           ),
                           onTap: () {
+                            saveStart(true);
                             Navigator.of(context).pushNamed("go");
                           },
                         )),

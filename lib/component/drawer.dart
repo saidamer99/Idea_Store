@@ -28,7 +28,9 @@ class MyDrawer extends StatelessWidget {
                           fit: BoxFit.cover)),
                 )),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed('go');
+              },
               leading: Icon(
                 Icons.home,
                 color: Colors.blue,

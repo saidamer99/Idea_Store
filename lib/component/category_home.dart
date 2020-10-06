@@ -6,182 +6,202 @@ class Categories_Home extends StatelessWidget {
     return ListView(
       scrollDirection: Axis.horizontal,
       children: <Widget>[
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "1",
-              textAlign: TextAlign.center,
+        InkWell(
+          onTap: () {},
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Center(
+                child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: new BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 4,
+                              spreadRadius: 0.4)
+                        ],
+                        borderRadius: BorderRadius.circular(30),
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("images/cat/sport.jpg")))),
+                new Text("Sport", textScaleFactor: 1.5)
+              ],
             )),
           ),
         ),
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "2",
-              textAlign: TextAlign.center,
+        InkWell(
+          onTap: () {},
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Center(
+                child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: new BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 4,
+                              spreadRadius: 0.4)
+                        ],
+                        borderRadius: BorderRadius.circular(30),
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("images/cat/couple.jpg")))),
+                new Text("Couple ", textScaleFactor: 1.5)
+              ],
             )),
           ),
         ),
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "3",
-              textAlign: TextAlign.center,
+        InkWell(
+          onTap: () {},
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Center(
+                child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: new BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 4,
+                              spreadRadius: 0.4)
+                        ],
+                        borderRadius: BorderRadius.circular(30),
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("images/cat/jobs.jpg")))),
+                new Text("Jobs", textScaleFactor: 1.5)
+              ],
             )),
           ),
         ),
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "4",
-              textAlign: TextAlign.center,
+        InkWell(
+          onTap: () {},
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Center(
+                child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: new BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 4,
+                              spreadRadius: 0.4)
+                        ],
+                        borderRadius: BorderRadius.circular(30),
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("images/cat/girls.jpg")))),
+                new Text("Girls", textScaleFactor: 1.5)
+              ],
             )),
           ),
         ),
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "5",
-              textAlign: TextAlign.center,
+        InkWell(
+          onTap: () {},
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Center(
+                child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: new BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 4,
+                              spreadRadius: 0.4)
+                        ],
+                        borderRadius: BorderRadius.circular(30),
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("images/cat/building.jpg")))),
+                new Text("Building", textScaleFactor: 1.5)
+              ],
             )),
           ),
         ),
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "6",
-              textAlign: TextAlign.center,
+        InkWell(
+          onTap: () {},
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Center(
+                child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: new BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 4,
+                              spreadRadius: 0.4)
+                        ],
+                        borderRadius: BorderRadius.circular(30),
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("images/cat/gamer.jpg")))),
+                new Text("Gamers", textScaleFactor: 1.5)
+              ],
             )),
           ),
         ),
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "7",
-              textAlign: TextAlign.center,
+        InkWell(
+          onTap: () {},
+          child: Container(
+            padding: EdgeInsets.all(10),
+            child: Center(
+                child: new Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                new Container(
+                    width: 120.0,
+                    height: 120.0,
+                    decoration: new BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 4,
+                              spreadRadius: 0.4)
+                        ],
+                        borderRadius: BorderRadius.circular(30),
+                        image: new DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("images/said.jpg")))),
+                new Text("I'm sorry said", textScaleFactor: 1.5)
+              ],
             )),
           ),
         ),
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "8",
-              textAlign: TextAlign.center,
-            )),
-          ),
-        ),
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "9",
-              textAlign: TextAlign.center,
-            )),
-          ),
-        ),
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "10",
-              textAlign: TextAlign.center,
-            )),
-          ),
-        ),
-        Container(
-          height: 120,
-          width: 120,
-          child: ListTile(
-            title: Image.asset(
-              "images/said.jpg",
-              height: 80,
-              width: 120,
-            ),
-            subtitle: Container(
-                child: Text(
-              "11",
-              textAlign: TextAlign.center,
-            )),
-          ),
-        )
       ],
     );
   }

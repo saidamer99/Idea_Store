@@ -22,7 +22,7 @@ class _CategoriesState extends State<Categories> {
               IconButton(icon: Icon(Icons.search), onPressed: () {})
             ],
           ),
-          drawer: MyDrawer(),
+          // drawer: MyDrawer(),
           body: GridView(
             gridDelegate:
                 SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),

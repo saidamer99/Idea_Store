@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(fontFamily: "Cairo"),
       title: "Idea",
-      home: Start_Screen(),
+      home: Home(),
       routes: {
         "go": (context) {
           return Home();
