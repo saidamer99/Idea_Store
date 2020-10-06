@@ -49,7 +49,7 @@ class _HomeState extends State<Home> {
                 body: ListView(
                   children: <Widget>[
                     Container(
-                      height: 200,
+                      height: 250,
                       width: MediaQuery.of(context).size.width,
                       child: Carousel(
                         autoplay: true,
