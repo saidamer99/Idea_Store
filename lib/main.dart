@@ -20,6 +20,9 @@ class MyApp extends StatelessWidget {
         },
         "Categories": (context) {
           return Categories();
+        },
+        "start": (context) {
+          return Start_Screen();
         }
       },
     );
