@@ -35,7 +35,12 @@ class _HomeState extends State<Home> {
         ? Directionality(
             textDirection: TextDirection.rtl,
             child: Scaffold(
+                backgroundColor: Colors.grey[300],
                 appBar: AppBar(
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(style: BorderStyle.solid),
+                      borderRadius:
+                          BorderRadius.vertical(bottom: Radius.circular(30))),
                   title: Text(
                     "Idea",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -49,28 +54,48 @@ class _HomeState extends State<Home> {
                 body: ListView(
                   children: <Widget>[
                     Container(
-                      height: 250,
+                      height: 350,
                       width: MediaQuery.of(context).size.width,
-                      child: Carousel(
-                        autoplay: true,
-                        images: [
-                          Image.asset(
-                            "images/1.jpg",
-                            fit: BoxFit.contain,
-                          ),
-                          Image.asset(
-                            "images/2.jpg",
-                            fit: BoxFit.contain,
-                          ),
-                          Image.asset(
-                            "images/3.jpg",
-                            fit: BoxFit.contain,
-                          )
-                        ],
-                        dotSize: 7,
-                        dotIncreasedColor: Colors.blue,
-                        indicatorBgPadding: 15,
-                        dotBgColor: Colors.grey.withOpacity(0.1),
+                      child: Card(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20)),
+                        child: Carousel(
+                          overlayShadow: true,
+                          defaultImage: Colors.black,
+                          boxFit: BoxFit.contain,
+                          borderRadius: true,
+                          animationDuration: Duration(milliseconds: 3000),
+                          autoplayDuration: Duration(milliseconds: 6000),
+                          animationCurve: Curves.slowMiddle,
+                          autoplay: true,
+                          images: [
+                            Image.asset(
+                              "images/1.jpg",
+                              fit: BoxFit.contain,
+                            ),
+                            Image.asset(
+                              "images/1.jpg",
+                              fit: BoxFit.contain,
+                            ),
+                            Image.asset(
+                              "images/1.jpg",
+                              fit: BoxFit.contain,
+                            ),
+                            Image.asset(
+                              "images/2.jpg",
+                              fit: BoxFit.contain,
+                            ),
+                            Image.asset(
+                              "images/3.jpg",
+                              fit: BoxFit.contain,
+                            )
+                          ],
+                          dotSize: 7,
+                          dotSpacing: 40,
+                          dotIncreasedColor: Colors.blue,
+                          indicatorBgPadding: 15,
+                          dotBgColor: Colors.grey.withOpacity(0),
+                        ),
                       ),
                     ),
                     Container(
@@ -84,7 +109,16 @@ class _HomeState extends State<Home> {
                         padding: EdgeInsets.all(10),
                         height: 200,
                         width: 200,
-                        child: Categories_Home()),
+                        child: CategoriesHome()),
+                    Container(
+                      height: 400,
+                      color: Color.fromRGBO(58, 66, 86, 1.0),
+                      child: GridView(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        children: <Widget>[Text('data')],
+                      ),
+                    )
                   ],
                 )),
           )

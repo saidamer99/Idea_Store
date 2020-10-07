@@ -68,7 +68,7 @@ flutter:
     - images/cat/girls.jpg
     - images/cat/building.jpg
     - images/cat/gamer.jpg
-    - images/cat/human.jpg
+    # - images/cat/human.jpg
     - images/cat/love.jpg
     - images/cat/ancient.jpg
     - images/cat/animal.jpg
