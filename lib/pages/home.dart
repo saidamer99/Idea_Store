@@ -1,5 +1,7 @@
 import 'package:app_idea/component/category_home.dart';
 import 'package:app_idea/component/drawer.dart';
+import 'package:app_idea/component/test.dart';
+import 'package:app_idea/pages/nature.dart';
 import 'package:app_idea/pages/start.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_pro/carousel_pro.dart';
@@ -35,19 +37,22 @@ class _HomeState extends State<Home> {
         ? Directionality(
             textDirection: TextDirection.rtl,
             child: Scaffold(
-                appBar: AppBar(
-                  backgroundColor: Colors.redAccent,
-                  shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(bottom: Radius.circular(15))),
-                  title: Text(
-                    "Idea",
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                appBar: PreferredSize(
+                  preferredSize: Size.fromHeight(60.0),
+                  child: AppBar(
+                    backgroundColor: Colors.redAccent,
+                    shape: RoundedRectangleBorder(
+                        borderRadius:
+                            BorderRadius.vertical(bottom: Radius.circular(15))),
+                    title: Text(
+                      "Idea",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    centerTitle: true,
+                    actions: <Widget>[
+                      IconButton(icon: Icon(Icons.search), onPressed: () {})
+                    ],
                   ),
-                  centerTitle: true,
-                  actions: <Widget>[
-                    IconButton(icon: Icon(Icons.search), onPressed: () {})
-                  ],
                 ),
                 drawer: MyDrawer(),
                 body: ListView(
@@ -101,8 +106,7 @@ class _HomeState extends State<Home> {
                       padding: EdgeInsets.all(10),
                       child: Text(
                         "الأقسام",
-                        style: TextStyle(
-                            fontSize: 30, color: Colors.redAccent[200]),
+                        style: TextStyle(fontSize: 30, color: Colors.redAccent),
                       ),
                     ),
                     Container(
@@ -111,17 +115,54 @@ class _HomeState extends State<Home> {
                         width: 200,
                         child: CategoriesHome()),
                     Container(
-                      height: 400,
-                      color: Color.fromRGBO(58, 66, 86, 1.0),
-                      child: GridView(
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                        children: <Widget>[Text('data')],
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        'أخر المنتجات',
+                        style: TextStyle(fontSize: 30, color: Colors.redAccent),
                       ),
-                    )
+                    ),
+                    Container(
+                      height: 400,
+                      child: GridView(
+                          padding: EdgeInsets.all(5),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          children: <Widget>[
+                            buildCard('images/1.jpg', 'nature'),
+                            buildCard('images/2.jpg', 'nature'),
+                            buildCard('images/3.jpg', 'nature'),
+                            buildCard('images/1.jpg', 'nature'),
+                            buildCard('images/2.jpg', 'nature'),
+                            buildCard('images/3.jpg', 'nature'),
+                          ]),
+                    ),
                   ],
                 )),
           )
         : Start_Screen();
+  }
+
+  InkWell buildCard(String image, String category) {
+    return InkWell(
+      onTap: () {},
+      child: Card(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+                child: Image.asset(
+              image,
+              fit: BoxFit.fill,
+            )),
+            Container(
+                child: Text(
+              category,
+              style: TextStyle(fontSize: 20, color: Colors.black),
+            )),
+          ],
+        ),
+      ),
+    );
   }
 }
