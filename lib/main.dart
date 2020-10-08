@@ -9,6 +9,7 @@ import 'package:app_idea/pages/gaming.dart';
 import 'package:app_idea/pages/girls.dart';
 import 'package:app_idea/pages/home.dart';
 import 'package:app_idea/pages/jobs.dart';
+import 'package:app_idea/pages/login.dart';
 import 'package:app_idea/pages/love.dart';
 import 'package:app_idea/pages/movies.dart';
 import 'package:app_idea/pages/music.dart';
@@ -87,6 +88,9 @@ class MyApp extends StatelessWidget {
         'ancient': (context) {
           return Ancient();
         },
+        "login": (context) {
+          return Login();
+        }
       },
     );
   }

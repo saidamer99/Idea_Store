@@ -35,12 +35,11 @@ class _HomeState extends State<Home> {
         ? Directionality(
             textDirection: TextDirection.rtl,
             child: Scaffold(
-                backgroundColor: Colors.grey[300],
                 appBar: AppBar(
+                  backgroundColor: Colors.redAccent,
                   shape: RoundedRectangleBorder(
-                      side: BorderSide(style: BorderStyle.solid),
                       borderRadius:
-                          BorderRadius.vertical(bottom: Radius.circular(30))),
+                          BorderRadius.vertical(bottom: Radius.circular(15))),
                   title: Text(
                     "Idea",
                     style: TextStyle(fontWeight: FontWeight.bold),
@@ -60,13 +59,13 @@ class _HomeState extends State<Home> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(20)),
                         child: Carousel(
-                          overlayShadow: true,
-                          defaultImage: Colors.black,
-                          boxFit: BoxFit.contain,
-                          borderRadius: true,
-                          animationDuration: Duration(milliseconds: 3000),
-                          autoplayDuration: Duration(milliseconds: 6000),
-                          animationCurve: Curves.slowMiddle,
+                          // overlayShadow: true,
+                          // defaultImage: Colors.black,
+                          // boxFit: BoxFit.contain,
+                          // borderRadius: true,
+                          // animationDuration: Duration(milliseconds: 3000),
+                          // autoplayDuration: Duration(milliseconds: 6000),
+                          // animationCurve: Curves.slowMiddle,
                           autoplay: true,
                           images: [
                             Image.asset(
@@ -102,7 +101,8 @@ class _HomeState extends State<Home> {
                       padding: EdgeInsets.all(10),
                       child: Text(
                         "الأقسام",
-                        style: TextStyle(fontSize: 30, color: Colors.blue),
+                        style: TextStyle(
+                            fontSize: 30, color: Colors.redAccent[200]),
                       ),
                     ),
                     Container(

@@ -73,6 +73,7 @@ class _CategoriesState extends State<Categories> {
         textDirection: TextDirection.rtl,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.redAccent[200],
             title: Text(
               "Categories",
               style: TextStyle(fontWeight: FontWeight.bold),

@@ -83,7 +83,9 @@ class MyDrawer extends StatelessWidget {
               ),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed("login");
+              },
               leading: Icon(
                 Icons.person,
                 color: Colors.blue,
