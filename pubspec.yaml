@@ -79,6 +79,7 @@ flutter:
     - images/cat/movies.jpg
     - images/cat/party.jpg
     - images/login/wallpaper.jpg
+    - images/login/wallpaper1.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

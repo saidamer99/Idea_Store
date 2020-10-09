@@ -1,6 +1,5 @@
 import 'package:app_idea/component/category_home.dart';
 import 'package:app_idea/component/drawer.dart';
-import 'package:app_idea/component/test.dart';
 import 'package:app_idea/pages/nature.dart';
 import 'package:app_idea/pages/start.dart';
 import 'package:flutter/material.dart';
@@ -123,6 +122,7 @@ class _HomeState extends State<Home> {
                     ),
                     Container(
                       height: 400,
+                      color: Colors.grey,
                       child: GridView(
                           padding: EdgeInsets.all(5),
                           gridDelegate:
