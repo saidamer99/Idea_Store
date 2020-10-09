@@ -122,7 +122,6 @@ class _HomeState extends State<Home> {
                     ),
                     Container(
                       height: 400,
-                      color: Colors.grey,
                       child: GridView(
                           padding: EdgeInsets.all(5),
                           gridDelegate:
