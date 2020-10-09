@@ -3,6 +3,7 @@ import 'package:app_idea/pages/animal.dart';
 import 'package:app_idea/pages/awareness.dart';
 import 'package:app_idea/pages/category.dart';
 import 'package:app_idea/pages/couples.dart';
+import 'package:app_idea/pages/coverDetails.dart';
 import 'package:app_idea/pages/decoration.dart';
 import 'package:app_idea/pages/famous.dart';
 import 'package:app_idea/pages/gaming.dart';
@@ -90,6 +91,9 @@ class MyApp extends StatelessWidget {
         },
         "login": (context) {
           return Login();
+        },
+        "details": (context) {
+          return CoverDetails();
         }
       },
     );

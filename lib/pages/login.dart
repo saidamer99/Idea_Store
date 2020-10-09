@@ -1,6 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatelessWidget {
+  TextEditingController username = new TextEditingController();
+  TextEditingController password = new TextEditingController();
+  GlobalKey<FormState> mykey = new GlobalKey();
+  bool issignin = true;
+  signin(BuildContext buildContext) {
+    var data = mykey.currentState;
+    if (data.validate()) {
+      Navigator.of(buildContext).pop();
+      Navigator.of(buildContext).pop();
+    } else {}
+  }
+
+  String validglobal(String val) {
+    if (val.isEmpty) {
+      return "لا يمكن أن يكون الحقل فارغ";
+    }
+  }
+
+  savepref(String name) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString("User", name);
+    preferences.getString("User");
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -13,7 +38,7 @@ class Login extends StatelessWidget {
                 image: DecorationImage(
                     fit: BoxFit.fill,
                     image: AssetImage(
-                      "images/login/wallpaper.jpg",
+                      "images/login/wallpaper1.jpg",
                     ))),
             child: Padding(
               padding: const EdgeInsets.only(top: 50),
@@ -36,42 +61,33 @@ class Login extends StatelessWidget {
                           height: 20,
                         ),
                         Form(
+                          key: mykey,
                           child: Container(
                             width: MediaQuery.of(context).size.width - 60,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Container(
-                                  child: TextFormField(
-                                      decoration: InputDecoration(
-                                          fillColor:
-                                              Colors.grey.withOpacity(0.3),
-                                          prefixIcon: Icon(
-                                            Icons.account_circle,
-                                            color: Colors.white70,
-                                          ),
-                                          hintText: "اسم المتسخدم",
-                                          hintStyle:
-                                              TextStyle(color: Colors.white70),
-                                          filled: true)),
-                                ),
+                                add_form(
+                                    "اسم المستخدم",
+                                    Icon(
+                                      Icons.account_circle,
+                                      color: Colors.white70,
+                                    ),
+                                    username,
+                                    false,
+                                    validglobal),
                                 SizedBox(
                                   height: 20,
                                 ),
-                                Container(
-                                  child: TextFormField(
-                                      decoration: InputDecoration(
-                                          fillColor:
-                                              Colors.grey.withOpacity(0.3),
-                                          prefixIcon: Icon(
-                                            Icons.lock,
-                                            color: Colors.white70,
-                                          ),
-                                          hintText: "كلمة المرور",
-                                          hintStyle:
-                                              TextStyle(color: Colors.white70),
-                                          filled: true)),
-                                ),
+                                add_form(
+                                    "كلمة المرور",
+                                    Icon(
+                                      Icons.lock,
+                                      color: Colors.white70,
+                                    ),
+                                    password,
+                                    true,
+                                    validglobal),
                                 SizedBox(
                                   height: 70,
                                 ),
@@ -102,6 +118,11 @@ class Login extends StatelessWidget {
                                         ),
                                       ),
                                     ),
+                                    onTap: () {
+                                      String name = username.text.toString();
+                                      savepref(name);
+                                      signin(context);
+                                    },
                                   ),
                                 )
                               ],
@@ -116,5 +137,23 @@ class Login extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  Container add_form(String hint, Icon icon, TextEditingController mycontroller,
+      bool obsecure, myvalid) {
+    return Container(
+      child: TextFormField(
+          validator: myvalid,
+          style: TextStyle(color: Colors.white),
+          obscureText: obsecure,
+          controller: mycontroller,
+          decoration: InputDecoration(
+              hoverColor: Colors.white,
+              fillColor: Colors.grey.withOpacity(0.3),
+              prefixIcon: icon,
+              hintText: hint,
+              hintStyle: TextStyle(color: Colors.white70),
+              filled: true)),
+    );
   }
 }
