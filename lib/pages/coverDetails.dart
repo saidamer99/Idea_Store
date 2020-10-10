@@ -15,6 +15,27 @@ class _CoverDetailsState extends State<CoverDetails> {
   List<String> qualitys = new List();
   List<String> categorys = new List();
 
+  int numberOfPhones = 0;
+  String dropdownValuetype = 'لاشيء';
+  List<String> spinnerItemstype = [
+    'لاشيء',
+    'Samsung',
+    'Sony',
+    'Hwawei',
+    'Oppo',
+    'iphone',
+  ];
+  String dropdownValuemodel = 'لاشيء';
+  List<String> spinnerItemsmodel = [
+    'لاشيء',
+    'Samsung',
+    'Sony',
+    'Hwawei',
+    'Oppo',
+    'iphone',
+  ];
+  bool show = false;
+
   clearPreferances() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.remove('images');
@@ -93,52 +114,222 @@ class _CoverDetailsState extends State<CoverDetails> {
               ),
             ),
             SizedBox(
-              height: 30,
+              height: 20,
             ),
             Container(
-              // decoration: BoxDecoration(borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-              margin: EdgeInsets.only(right: 10, left: 10),
-              height: 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  buildNumberOfPhones(),
-                  SizedBox(
-                    width: 20,
+              alignment: Alignment.center,
+              height: 50,
+              decoration: BoxDecoration(
+                  color: Colors.grey, borderRadius: BorderRadius.circular(40)),
+              child: Text(
+                "ادخل تفاصيل الشراء",
+                style: TextStyle(color: Colors.white70, fontSize: 20),
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        "عدد القطع :",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    Container(
+                        width: 40, child: Text(numberOfPhones.toString())),
+                    Expanded(
+                        child: Container(
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                              child: IconButton(
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                numberOfPhones++;
+                              });
+                            },
+                          )),
+                          Expanded(
+                              child: IconButton(
+                            icon: Icon(
+                              Icons.minimize,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                if (numberOfPhones != 0) numberOfPhones--;
+                              });
+                            },
+                          )),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                          color: Colors.redAccent[100],
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(20))),
+                    ))
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        "نوع الموبايل :",
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ),
+                    Expanded(
+                        child: Container(
+                      child: Dropdowntype(spinnerItemstype),
+                    )),
+                  ],
+                ),
+              ),
+            ),
+            show
+                ? Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "الموديل :",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          Expanded(
+                              child: Container(
+                            child: Dropdownmodel(spinnerItemsmodel),
+                          )),
+                        ],
+                      ),
+                    ),
+                  )
+                : SizedBox(
+                    height: 50,
                   ),
-                  buildNumberOfPhones(),
+            Container(
+              padding: EdgeInsets.all(8.0),
+              child: Column(
+                children: <Widget>[
+                  Text(
+                    "الجودة :",
+                    style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.only(right: 5),
+                    leading: Radio(),
+                    title: Text(
+                      "عادية",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.blue,
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.only(right: 5),
+                    leading: Radio(
+                      activeColor: Colors.redAccent,
+                    ),
+                    title: Text(
+                      "متوسطة",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  Divider(
+                    color: Colors.blue,
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.only(right: 5),
+                    leading: Radio(
+                      activeColor: Colors.redAccent,
+                    ),
+                    title: Text(
+                      "عالية",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  int numberOfPhones = 0;
-  Container buildNumberOfPhones() {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
-      height: 80,
-      width: 150,
-      child: Center(
-        child: Stack(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                buildPositionedBottomAdd(50),
-                Padding(padding: EdgeInsets.only(left: 10)),
-                Text(
-                  numberOfPhones.toString(),
-                  style: TextStyle(color: Colors.white),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: InkWell(
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.redAccent,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20))),
+                  height: 50,
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.shopping_cart,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          " تأكيد الشراء",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                Padding(padding: EdgeInsets.only(right: 10)),
-                buildPositionedBottomMines(50)
-              ],
+                onTap: () {},
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.blueGrey,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20))),
+                  height: 50,
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.shop,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          " متابعة",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  saveList("images/1.jpg", "2", "samsung", "عادية", "famous");
+                },
+              ),
             ),
           ],
         ),
@@ -194,7 +385,7 @@ class _CoverDetailsState extends State<CoverDetails> {
                   IconButton(
                       iconSize: 30.0,
                       icon: Icon(
-                        Icons.shopping_cart,
+                        Icons.assignment,
                         color: Colors.white,
                       ),
                       onPressed: () async {
@@ -228,71 +419,85 @@ class _CoverDetailsState extends State<CoverDetails> {
     );
   }
 
-  Stack buildPositionedBottomAdd(double mdw) {
-    return Stack(
-      children: <Widget>[
-        Center(
-            child: AnimatedContainer(
-                duration: Duration(milliseconds: 500),
-                height: mdw,
-                width: mdw,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(mdw),
-                  color: Colors.white,
-                ))),
-        Center(
-          child: IconButton(
-              icon: Icon(
-                Icons.add,
-                color: Colors.red,
-              ),
-              onPressed: () {
-                setState(() {
-                  numberOfPhones++;
-                });
-              }),
-        )
-      ],
-    );
-  }
-
-  Stack buildPositionedBottomMines(double mdw) {
-    return Stack(
-      children: <Widget>[
-        Center(
-            child: AnimatedContainer(
-                duration: Duration(milliseconds: 500),
-                height: mdw,
-                width: mdw,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(mdw),
-                  color: Colors.white,
-                ))),
-        Center(
-          child: IconButton(
-              padding: EdgeInsets.only(bottom: 15, right: 1),
-              icon: Icon(
-                Icons.minimize,
-                color: Colors.red,
-              ),
-              onPressed: () {
-                setState(() {
-                  numberOfPhones--;
-                  if (numberOfPhones < 0) {
-                    numberOfPhones = 0;
-                  }
-                });
-              }),
-        )
-      ],
-    );
-  }
-
   Container buildTopImage() {
     return Container(
       height: 500,
       width: MediaQuery.of(context).size.width,
       child: GridTile(child: Image.asset('images/1.jpg')),
+    );
+  }
+
+  Dropdowntype(List<String> spinneritems) {
+    return Center(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(children: <Widget>[
+          DropdownButton<String>(
+            value: dropdownValuetype,
+            icon: Icon(Icons.arrow_drop_down),
+            iconSize: 24,
+            elevation: 16,
+            style: TextStyle(color: Colors.red, fontSize: 18),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String data) {
+              setState(() {
+                dropdownValuetype = data;
+                if (dropdownValuetype != "لاشيء") {
+                  show = true;
+                } else {
+                  show = false;
+                }
+              });
+            },
+            items: spinneritems.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ]),
+      ),
+    );
+  }
+
+  Dropdownmodel(List<String> spinneritems) {
+    return Center(
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(children: <Widget>[
+          DropdownButton<String>(
+            value: dropdownValuemodel,
+            icon: Icon(Icons.arrow_drop_down),
+            iconSize: 24,
+            elevation: 16,
+            style: TextStyle(color: Colors.red, fontSize: 18),
+            underline: Container(
+              height: 2,
+              color: Colors.deepPurpleAccent,
+            ),
+            onChanged: (String data) {
+              setState(() {
+                dropdownValuemodel = data;
+                if (dropdownValuetype != "لاشيء") {
+                  show = true;
+                } else {
+                  show = false;
+                }
+              });
+            },
+            items: spinneritems.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ]),
+      ),
     );
   }
 }
