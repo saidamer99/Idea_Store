@@ -1,5 +1,5 @@
-import 'package:app_idea/items.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ShopDetails extends StatefulWidget {
   List<String> imagesS = new List();
@@ -7,6 +7,7 @@ class ShopDetails extends StatefulWidget {
   List<String> kindsS = new List();
   List<String> qualitysS = new List();
   List<String> categorysS = new List();
+
   ShopDetails(
       {this.imagesS,
       this.numbersS,
@@ -18,42 +19,110 @@ class ShopDetails extends StatefulWidget {
 }
 
 class _ShopDetailsState extends State<ShopDetails> {
+  bool hasData = false;
+
+  clearData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.clear();
+  }
+
+  deleteItem(int index) async {
+    List<String> images = new List();
+    List<String> numbers = new List();
+    List<String> kinds = new List();
+    List<String> qualitys = new List();
+    List<String> categorys = new List();
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    images = preferences.getStringList('images');
+    numbers = preferences.getStringList('numbers');
+    kinds = preferences.getStringList('kinds');
+    qualitys = preferences.getStringList('qualitys');
+    categorys = preferences.getStringList('categorys');
+
+    images.removeAt(index);
+    numbers.removeAt(index);
+    kinds.removeAt(index);
+    qualitys.removeAt(index);
+    categorys.removeAt(index);
+
+    preferences.setStringList('images', images);
+    preferences.setStringList('numbers', numbers);
+    preferences.setStringList('kinds', kinds);
+    preferences.setStringList('qualitys', qualitys);
+    preferences.setStringList('categorys', categorys);
+  }
+
+  getData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getStringList('images') != null) {
+      widget.imagesS = preferences.getStringList('images');
+      widget.numbersS = preferences.getStringList('numbers');
+      widget.kindsS = preferences.getStringList('kinds');
+      widget.qualitysS = preferences.getStringList('qualitys');
+      widget.categorysS = preferences.getStringList('categorys');
+      setState(() {
+        hasData = true;
+      });
+    } else {
+      setState(() {
+        hasData = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    getData();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
         textDirection: TextDirection.rtl,
         child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: Size.fromHeight(60.0),
-            child: AppBar(
-              backgroundColor: Colors.redAccent,
-              shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(bottom: Radius.circular(15))),
-              title: Text(
-                "Shop details",
-                style: TextStyle(fontWeight: FontWeight.bold),
+            appBar: PreferredSize(
+              preferredSize: Size.fromHeight(60.0),
+              child: AppBar(
+                backgroundColor: Colors.redAccent,
+                shape: RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(bottom: Radius.circular(15))),
+                title: Text(
+                  "Shop details",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                centerTitle: true,
               ),
-              centerTitle: true,
             ),
-          ),
-          body: ListView.builder(
-            itemCount: widget.categorysS.length,
-            itemBuilder: (context, index) {
-              return buildListTile(
-                  context,
-                  widget.imagesS[index],
-                  widget.numbersS[index],
-                  widget.kindsS[index],
-                  widget.qualitysS[index],
-                  widget.categorysS[index]);
-            },
-          ),
-        ));
+            body: hasData
+                ? ListView.builder(
+                    itemCount: widget.categorysS.length,
+                    itemBuilder: (context, index) {
+                      return buildListTile(
+                        index,
+                        context,
+                        widget.imagesS[index],
+                        widget.numbersS[index],
+                        widget.kindsS[index],
+                        widget.qualitysS[index],
+                        widget.categorysS[index],
+                      );
+                    },
+                  )
+                : Center(child: CircularProgressIndicator())));
   }
 
-  Container buildListTile(context, String image, String numberOfPices,
-      String kindOfMobile, String quality, String caregoryOfmobile) {
+  Container buildListTile(
+    int i,
+    context,
+    String image,
+    String numberOfPices,
+    String kindOfMobile,
+    String quality,
+    String caregoryOfmobile,
+  ) {
     return Container(
         height: 220,
         width: 100,
@@ -167,7 +236,6 @@ class _ShopDetailsState extends State<ShopDetails> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
                     child: Expanded(
                       flex: 1,
                       child: Center(
@@ -177,7 +245,11 @@ class _ShopDetailsState extends State<ShopDetails> {
                                 Icons.delete,
                                 color: Colors.red,
                               ),
-                              onPressed: null)),
+                              onPressed: () {
+                                setState(() {
+                                  deleteItem(i);
+                                });
+                              })),
                     ),
                   )
                 ],
