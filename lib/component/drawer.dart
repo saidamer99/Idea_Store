@@ -190,6 +190,23 @@ class _MyDrawerState extends State<MyDrawer> {
                 style: TextStyle(fontSize: 15, color: Colors.white70),
               ),
             ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pushNamed("shop");
+              },
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.white70,
+              ),
+              leading: Icon(
+                Icons.person,
+                color: Colors.white70,
+              ),
+              title: Text(
+                " Shop details",
+                style: TextStyle(fontSize: 15, color: Colors.white70),
+              ),
+            ),
           ]),
         ),
       ),

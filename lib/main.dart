@@ -16,6 +16,7 @@ import 'package:app_idea/pages/movies.dart';
 import 'package:app_idea/pages/music.dart';
 import 'package:app_idea/pages/nature.dart';
 import 'package:app_idea/pages/occasions.dart';
+import 'package:app_idea/pages/shopDetails.dart';
 import 'package:app_idea/pages/sport.dart';
 import 'package:app_idea/pages/start.dart';
 import 'package:app_idea/pages/startrFromHelp.dart';
@@ -94,6 +95,9 @@ class MyApp extends StatelessWidget {
         },
         "details": (context) {
           return CoverDetails();
+        },
+        "shop": (context) {
+          return ShopDetails();
         }
       },
     );
