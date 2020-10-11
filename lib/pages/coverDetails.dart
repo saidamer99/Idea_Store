@@ -1,4 +1,3 @@
-import 'package:app_idea/pages/shopDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -7,6 +7,7 @@ class ShopDetails extends StatefulWidget {
   List<String> kindsS = new List();
   List<String> qualitysS = new List();
   List<String> categorysS = new List();
+
   int numberOfPices;
   ShopDetails(
       {this.imagesS,
@@ -20,6 +21,7 @@ class ShopDetails extends StatefulWidget {
 
 class _ShopDetailsState extends State<ShopDetails> {
   bool hasData = false;
+  final GlobalKey<AnimatedListState> _key = GlobalKey();
 
   clearData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -54,13 +56,14 @@ class _ShopDetailsState extends State<ShopDetails> {
 
   getData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getStringList('images') != null) {
+    if (preferences.getStringList('images').length > 0) {
       widget.imagesS = preferences.getStringList('images');
       widget.numbersS = preferences.getStringList('numbers');
       widget.kindsS = preferences.getStringList('kinds');
       widget.qualitysS = preferences.getStringList('qualitys');
       widget.categorysS = preferences.getStringList('categorys');
       widget.numberOfPices = widget.categorysS.length;
+
       setState(() {
         hasData = true;
       });
@@ -74,6 +77,7 @@ class _ShopDetailsState extends State<ShopDetails> {
   @override
   void initState() {
     getData();
+
     super.initState();
   }
 
@@ -97,21 +101,168 @@ class _ShopDetailsState extends State<ShopDetails> {
               ),
             ),
             body: hasData
-                ? ListView.builder(
-                    itemCount: widget.numberOfPices,
-                    itemBuilder: (context, index) {
-                      return buildListTile(
-                        index,
-                        context,
-                        widget.imagesS[index],
-                        widget.numbersS[index],
-                        widget.kindsS[index],
-                        widget.qualitysS[index],
-                        widget.categorysS[index],
-                      );
+                ? AnimatedList(
+                    key: _key,
+                    initialItemCount: widget.categorysS.length,
+                    itemBuilder: (context, index, animation) {
+                      return _buildItem(
+                          widget.numbersS[index],
+                          widget.kindsS[index],
+                          widget.qualitysS[index],
+                          widget.categorysS[index],
+                          widget.imagesS[index],
+                          animation,
+                          index);
                     },
                   )
                 : Center(child: CircularProgressIndicator())));
+  }
+
+  Widget _buildItem(String numberOfPices, String kindOfMobile, String quality,
+      String caregoryOfmobile, String image, Animation animation, int index) {
+    return SizeTransition(
+      sizeFactor: animation,
+      child: Container(
+        child: Column(
+          children: <Widget>[
+            Card(
+              elevation: 2,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                      flex: 1,
+                      child: Image.asset(
+                        image,
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.cover,
+                      )),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                      height: 180,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.vertical,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.blue,
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              child: RichText(
+                                text: TextSpan(
+                                    style: TextStyle(color: Colors.grey),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: " عدد القطع : ",
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      TextSpan(
+                                          text: numberOfPices,
+                                          style: TextStyle(color: Colors.black))
+                                    ]),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              child: RichText(
+                                text: TextSpan(
+                                    style: TextStyle(color: Colors.grey),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: "  نوع الموبايل : ",
+                                          style:
+                                              TextStyle(color: Colors.black)),
+                                      TextSpan(
+                                          text: kindOfMobile,
+                                          style: TextStyle(color: Colors.blue))
+                                    ]),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.blue,
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              child: RichText(
+                                text: TextSpan(
+                                    style: TextStyle(color: Colors.grey),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: "  الجودة : ",
+                                          style:
+                                              TextStyle(color: Colors.white)),
+                                      TextSpan(
+                                          text: quality,
+                                          style: TextStyle(color: Colors.black))
+                                    ]),
+                              ),
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.white,
+                              ),
+                              width: MediaQuery.of(context).size.width,
+                              child: RichText(
+                                text: TextSpan(
+                                    style: TextStyle(color: Colors.grey),
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                          text: "  القسم : ",
+                                          style:
+                                              TextStyle(color: Colors.black)),
+                                      TextSpan(
+                                          text: caregoryOfmobile,
+                                          style: TextStyle(color: Colors.blue))
+                                    ]),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    child: Expanded(
+                      flex: 1,
+                      child: Center(
+                          child: IconButton(
+                              iconSize: 40.0,
+                              icon: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _removeItem(index);
+                                  deleteItem(index);
+                                  widget.numberOfPices--;
+                                });
+                              })),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Divider(
+              thickness: 2,
+              color: Colors.red,
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Container buildListTile(
@@ -247,6 +398,7 @@ class _ShopDetailsState extends State<ShopDetails> {
                               ),
                               onPressed: () {
                                 setState(() {
+                                  _removeItem(i);
                                   deleteItem(i);
                                   widget.numberOfPices--;
                                 });
@@ -262,5 +414,18 @@ class _ShopDetailsState extends State<ShopDetails> {
             )
           ],
         ));
+  }
+
+  void _removeItem(int i) {
+    String removedImage = widget.imagesS.removeAt(i);
+    String removednumber = widget.numbersS.removeAt(i);
+    String removedkind = widget.kindsS.removeAt(i);
+    String removedquality = widget.qualitysS.removeAt(i);
+    String removedcategory = widget.categorysS.removeAt(i);
+    AnimatedListRemovedItemBuilder builder = (context, animation) {
+      return _buildItem(removednumber, removedkind, removedquality,
+          removedcategory, removedImage, animation, i);
+    };
+    _key.currentState.removeItem(i, builder);
   }
 }
