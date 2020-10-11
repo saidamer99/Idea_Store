@@ -46,7 +46,7 @@ class _CoverDetailsState extends State<CoverDetails> {
     List<String> qualitys = new List();
     List<String> categorys = new List();
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getStringList('images').length > 0) {
+    if (preferences.getStringList('images').length != null) {
       images = preferences.getStringList('images');
       numbers = preferences.getStringList('numbers');
       kinds = preferences.getStringList('kinds');
