@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CoverDetails extends StatefulWidget {
@@ -26,7 +27,16 @@ class _CoverDetailsState extends State<CoverDetails> {
     'Oppo',
     'iphone',
   ];
+
   bool show = false;
+  String default_Choise = "عادية";
+  int default_index = 0;
+  List<Mychoice> choises = [
+    Mychoice(index: 0, choise: "عادية"),
+    Mychoice(index: 1, choise: "متوسطة"),
+    Mychoice(index: 2, choise: "عالية")
+  ];
+  String choose = "";
 
   saveList(String image, String number, String kind, String quality,
       String category) async {
@@ -196,6 +206,12 @@ class _CoverDetailsState extends State<CoverDetails> {
               padding: EdgeInsets.all(8.0),
               child: Column(
                 children: <Widget>[
+                  Divider(
+                    color: Colors.grey,
+                  ),
+                  Divider(
+                    color: Colors.grey,
+                  ),
                   Text(
                     "الجودة :",
                     style: TextStyle(
@@ -203,39 +219,38 @@ class _CoverDetailsState extends State<CoverDetails> {
                         fontSize: 20,
                         fontWeight: FontWeight.bold),
                   ),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(right: 5),
-                    leading: Radio(),
-                    title: Text(
-                      "عادية",
-                      style: TextStyle(fontSize: 20),
-                    ),
+                  Column(
+                    children: <Widget>[
+                      Wrap(
+                        children: <Widget>[
+                          Container(
+                            child: Column(
+                              children: choises
+                                  .map((data) => RadioListTile(
+                                        title: Text('${data.choise}'),
+                                        groupValue: default_index,
+                                        value: data.index,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            default_Choise = data.choise;
+                                            default_index = data.index;
+                                            choose = data.choise;
+                                          });
+                                        },
+                                        activeColor: Colors.redAccent,
+                                      ))
+                                  .toList(),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
                   ),
                   Divider(
-                    color: Colors.blue,
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(right: 5),
-                    leading: Radio(
-                      activeColor: Colors.redAccent,
-                    ),
-                    title: Text(
-                      "متوسطة",
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    color: Colors.grey,
                   ),
                   Divider(
-                    color: Colors.blue,
-                  ),
-                  ListTile(
-                    contentPadding: EdgeInsets.only(right: 5),
-                    leading: Radio(
-                      activeColor: Colors.redAccent,
-                    ),
-                    title: Text(
-                      "عالية",
-                      style: TextStyle(fontSize: 20),
-                    ),
+                    color: Colors.grey,
                   ),
                 ],
               ),
@@ -259,14 +274,16 @@ class _CoverDetailsState extends State<CoverDetails> {
                           color: Colors.white,
                         ),
                         Text(
-                          " تأكيد الشراء",
+                          " إرسال الطلبية",
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ],
                     ),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  share(context);
+                },
               ),
             ),
             Padding(
@@ -288,7 +305,7 @@ class _CoverDetailsState extends State<CoverDetails> {
                           color: Colors.white,
                         ),
                         Text(
-                          " متابعة",
+                          " شراء التصميم",
                           style: TextStyle(color: Colors.white, fontSize: 20),
                         ),
                       ],
@@ -387,6 +404,14 @@ class _CoverDetailsState extends State<CoverDetails> {
     );
   }
 
+  void share(BuildContext context) {
+    final RenderBox box = context.findRenderObject();
+    Share.share(
+        "for example :From User : model :12_ Count : 2 _Kind :samsung galaxy s10....",
+        subject: "User",
+        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+  }
+
   Dropdowntype(List<String> spinneritems) {
     return Center(
       child: SingleChildScrollView(
@@ -460,4 +485,10 @@ class _CoverDetailsState extends State<CoverDetails> {
       ),
     );
   }
+}
+
+class Mychoice {
+  String choise;
+  int index;
+  Mychoice({this.index, this.choise});
 }

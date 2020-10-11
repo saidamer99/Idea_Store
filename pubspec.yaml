@@ -31,7 +31,8 @@ dependencies:
   carousel_pro: ^1.0.0
   http: ^0.12.2
   shared_preferences: ^0.5.12
-  
+  share: ^0.6.2+3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
