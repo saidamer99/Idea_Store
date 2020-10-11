@@ -1,4 +1,3 @@
-import 'package:app_idea/items.dart';
 import 'package:app_idea/pages/shopDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,12 +8,6 @@ class CoverDetails extends StatefulWidget {
 }
 
 class _CoverDetailsState extends State<CoverDetails> {
-  List<String> images = new List();
-  List<String> numbers = new List();
-  List<String> kinds = new List();
-  List<String> qualitys = new List();
-  List<String> categorys = new List();
-
   int numberOfPhones = 0;
   String dropdownValuetype = 'لاشيء';
   List<String> spinnerItemstype = [
@@ -36,30 +29,32 @@ class _CoverDetailsState extends State<CoverDetails> {
   ];
   bool show = false;
 
-  clearPreferances() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.remove('images');
-    preferences.remove('kinds');
-    preferences.remove('numbers');
-    preferences.remove('qualitys');
-    preferences.remove('categorys');
-  }
-
   saveList(String image, String number, String kind, String quality,
       String category) async {
+    List<String> images = new List();
+    List<String> numbers = new List();
+    List<String> kinds = new List();
+    List<String> qualitys = new List();
+    List<String> categorys = new List();
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getStringList('images') != null) {
-      images.addAll(preferences.getStringList('images'));
-      numbers.addAll(preferences.getStringList('numbers'));
-      kinds.addAll(preferences.getStringList('kinds'));
-      qualitys.addAll(preferences.getStringList('qualitys'));
-      categorys.addAll(preferences.getStringList('categorys'));
+    if (preferences.getStringList('images').length > 0) {
+      images = preferences.getStringList('images');
+      numbers = preferences.getStringList('numbers');
+      kinds = preferences.getStringList('kinds');
+      qualitys = preferences.getStringList('qualitys');
+      categorys = preferences.getStringList('categorys');
 
       images.add(image);
       numbers.add(number);
       kinds.add(kind);
       qualitys.add(quality);
       categorys.add(category);
+
+      preferences.setStringList('images', images);
+      preferences.setStringList('numbers', numbers);
+      preferences.setStringList('kinds', kinds);
+      preferences.setStringList('qualitys', qualitys);
+      preferences.setStringList('categorys', categorys);
     } else {
       images.add(image);
       numbers.add(number);
@@ -73,31 +68,6 @@ class _CoverDetailsState extends State<CoverDetails> {
       preferences.setStringList('qualitys', qualitys);
       preferences.setStringList('categorys', categorys);
     }
-  }
-
-  getImagesList() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    images = preferences.getStringList('images');
-  }
-
-  getNumbersList() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    numbers = preferences.getStringList('numbers');
-  }
-
-  getKindsList() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    kinds = preferences.getStringList('kinds');
-  }
-
-  getQualitysList() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    qualitys = preferences.getStringList('qualitys');
-  }
-
-  getCategorysList() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    categorys = preferences.getStringList('categorys');
   }
 
   Widget build(BuildContext context) {
@@ -326,9 +296,7 @@ class _CoverDetailsState extends State<CoverDetails> {
                     ),
                   ),
                 ),
-                onTap: () {
-                  saveList("images/1.jpg", "2", "samsung", "عادية", "famous");
-                },
+                onTap: () {},
               ),
             ),
           ],
@@ -385,30 +353,23 @@ class _CoverDetailsState extends State<CoverDetails> {
                   IconButton(
                       iconSize: 30.0,
                       icon: Icon(
-                        Icons.assignment,
+                        Icons.add,
                         color: Colors.white,
                       ),
-                      onPressed: () async {
+                      onPressed: () {
                         saveList('images/1.jpg', 'number', 'kind', 'quality',
                             'category');
                         saveList('images/2.jpg', 'number', 'kind', 'quality',
                             'category');
-                        getImagesList();
-                        getKindsList();
-                        getNumbersList();
-                        getQualitysList();
-                        getCategorysList();
-
-                        Navigator.of(context)
-                            .push(MaterialPageRoute(builder: (context) {
-                          return ShopDetails(
-                            imagesS: images,
-                            numbersS: numbers,
-                            kindsS: kinds,
-                            qualitysS: qualitys,
-                            categorysS: categorys,
-                          );
-                        }));
+                      }),
+                  IconButton(
+                      iconSize: 30.0,
+                      icon: Icon(
+                        Icons.assignment,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('shop');
                       }),
                 ],
               ),

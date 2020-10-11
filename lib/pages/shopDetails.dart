@@ -7,7 +7,7 @@ class ShopDetails extends StatefulWidget {
   List<String> kindsS = new List();
   List<String> qualitysS = new List();
   List<String> categorysS = new List();
-
+  int numberOfPices;
   ShopDetails(
       {this.imagesS,
       this.numbersS,
@@ -60,6 +60,7 @@ class _ShopDetailsState extends State<ShopDetails> {
       widget.kindsS = preferences.getStringList('kinds');
       widget.qualitysS = preferences.getStringList('qualitys');
       widget.categorysS = preferences.getStringList('categorys');
+      widget.numberOfPices = widget.categorysS.length;
       setState(() {
         hasData = true;
       });
@@ -73,7 +74,6 @@ class _ShopDetailsState extends State<ShopDetails> {
   @override
   void initState() {
     getData();
-
     super.initState();
   }
 
@@ -98,7 +98,7 @@ class _ShopDetailsState extends State<ShopDetails> {
             ),
             body: hasData
                 ? ListView.builder(
-                    itemCount: widget.categorysS.length,
+                    itemCount: widget.numberOfPices,
                     itemBuilder: (context, index) {
                       return buildListTile(
                         index,
@@ -248,6 +248,7 @@ class _ShopDetailsState extends State<ShopDetails> {
                               onPressed: () {
                                 setState(() {
                                   deleteItem(i);
+                                  widget.numberOfPices--;
                                 });
                               })),
                     ),
