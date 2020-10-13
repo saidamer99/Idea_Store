@@ -1,13 +1,26 @@
+import 'package:app_idea/pages/Files.dart';
 import 'package:flutter/material.dart';
-import 'package:share/share.dart';
+import 'package:path_provider/path_provider.dart';
+// import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
+import 'package:share_extend/share_extend.dart';
 
 class CoverDetails extends StatefulWidget {
+  List<String> imagesS = new List();
+  List<String> numbersS = new List();
+  List<String> kindsS = new List();
+  List<String> qualitysS = new List();
+  List<String> categorysS = new List();
+
+  int numberOfPices;
   @override
   _CoverDetailsState createState() => _CoverDetailsState();
 }
 
 class _CoverDetailsState extends State<CoverDetails> {
+  bool hasData = false;
+
   int numberOfPhones = 0;
   String dropdownValuetype = 'لاشيء';
   List<String> spinnerItemstype = [
@@ -37,7 +50,53 @@ class _CoverDetailsState extends State<CoverDetails> {
     Mychoice(index: 2, choise: "عالية")
   ];
   String choose = "";
+  var username;
+  File_class file_class;
 
+  getuser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    username = preferences.getString("User");
+    file_class = new File_class(username);
+  }
+
+  @override
+  void initState() {
+    getuser();
+
+    super.initState();
+  }
+
+  get_save_Data() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getStringList('images').length != 0 ||
+        preferences.getStringList("images") != null) {
+      widget.imagesS = preferences.getStringList('images');
+      widget.numbersS = preferences.getStringList('numbers');
+      widget.kindsS = preferences.getStringList('kinds');
+      widget.qualitysS = preferences.getStringList('qualitys');
+      widget.categorysS = preferences.getStringList('categorys');
+      widget.numberOfPices = widget.categorysS.length;
+
+      setState(() {
+        hasData = true;
+        for (int i = 0; i < widget.categorysS.length; i++) {
+          content = content +
+              "${widget.imagesS[i]} \n ${widget.numbersS[i]}  \n ${widget.kindsS[i]}\n ${widget.qualitysS[i]} \n ${widget.categorysS[i]} \n \n \n";
+        }
+        file_class
+            .writeData("from " + username.toString() + " : \n \n" + content);
+        content = "";
+      });
+    } else {
+      setState(() {
+        hasData = false;
+        content = "";
+        file_class.writeData(content);
+      });
+    }
+  }
+
+  String content = "";
   saveList(String image, String number, String kind, String quality,
       String category) async {
     List<String> images = new List();
@@ -256,6 +315,66 @@ class _CoverDetailsState extends State<CoverDetails> {
               ),
             ),
             Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.blueGrey,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20))),
+                  height: 50,
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.shop,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          " طلب التصميم",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                onTap: () {},
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                      color: Colors.blue,
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(20))),
+                  height: 50,
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Icon(
+                          Icons.assignment,
+                          color: Colors.white,
+                        ),
+                        Text(
+                          " قائمة طلباتك",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                onTap: () {
+                  Navigator.of(context).pushNamed('shop');
+                },
+              ),
+            ),
+            Padding(
               padding: const EdgeInsets.all(8),
               child: InkWell(
                 child: Container(
@@ -282,37 +401,9 @@ class _CoverDetailsState extends State<CoverDetails> {
                   ),
                 ),
                 onTap: () {
+                  get_save_Data();
                   share(context);
                 },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20))),
-                  height: 50,
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.shop,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          " شراء التصميم",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                onTap: () {},
               ),
             ),
           ],
@@ -373,19 +464,12 @@ class _CoverDetailsState extends State<CoverDetails> {
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        saveList('images/1.jpg', 'number', 'kind', 'quality',
-                            'category');
-                        saveList('images/2.jpg', 'number', 'kind', 'quality',
-                            'category');
-                      }),
-                  IconButton(
-                      iconSize: 30.0,
-                      icon: Icon(
-                        Icons.assignment,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('shop');
+                        setState(() {
+                          saveList('images/1.jpg', 'number', 'kind', 'quality',
+                              'category');
+                          saveList('images/2.jpg', 'number', 'kind', 'quality',
+                              'category');
+                        });
                       }),
                 ],
               ),
@@ -404,12 +488,13 @@ class _CoverDetailsState extends State<CoverDetails> {
     );
   }
 
-  void share(BuildContext context) {
-    final RenderBox box = context.findRenderObject();
-    Share.share(
-        "for example :From User : model :12_ Count : 2 _Kind :samsung galaxy s10....",
-        subject: "User",
-        sharePositionOrigin: box.localToGlobal(Offset.zero) & box.size);
+  void share(BuildContext buildContext) async {
+    Directory dir = await getApplicationSupportDirectory();
+    File testFile = new File("${dir.path}/${username.toString()}.txt");
+    if (!await testFile.exists()) {
+      await testFile.create(recursive: true);
+    }
+    ShareExtend.share(testFile.path, "file");
   }
 
   Dropdowntype(List<String> spinneritems) {

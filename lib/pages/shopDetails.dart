@@ -56,7 +56,7 @@ class _ShopDetailsState extends State<ShopDetails> {
 
   getData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getStringList('images').length != null) {
+    if (preferences.getStringList('images') != 0) {
       widget.imagesS = preferences.getStringList('images');
       widget.numbersS = preferences.getStringList('numbers');
       widget.kindsS = preferences.getStringList('kinds');
