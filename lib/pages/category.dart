@@ -1,7 +1,21 @@
+import 'dart:io';
+
 import 'package:app_idea/component/drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_extend/share_extend.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Files.dart';
 
 class Categories extends StatefulWidget {
+  List<String> imagesS = new List();
+  List<String> numbersS = new List();
+  List<String> kindsS = new List();
+  List<String> qualitysS = new List();
+  List<String> categorysS = new List();
+
+  int numberOfPices;
   @override
   _CategoriesState createState() => _CategoriesState();
 }
@@ -67,6 +81,75 @@ openAncient(context) {
 }
 
 class _CategoriesState extends State<Categories> {
+  var username;
+  File_class file_class;
+
+  getuser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    username = preferences.getString("User");
+    file_class = new File_class(username);
+  }
+
+  void share(BuildContext buildContext) async {
+    Directory dir = await getApplicationSupportDirectory();
+    File testFile = new File("${dir.path}/${username.toString()}.txt");
+    if (!await testFile.exists()) {
+      await testFile.create(recursive: true);
+    }
+    ShareExtend.share(testFile.path, "file");
+  }
+
+  bool hasData = false;
+  String content = "";
+  get_save_Data() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getStringList('images').length != 0 ||
+        preferences.getStringList("images") != null) {
+      widget.imagesS = preferences.getStringList('images');
+      widget.numbersS = preferences.getStringList('numbers');
+      widget.kindsS = preferences.getStringList('kinds');
+      widget.qualitysS = preferences.getStringList('qualitys');
+      widget.categorysS = preferences.getStringList('categorys');
+      widget.numberOfPices = widget.categorysS.length;
+
+      setState(() {
+        hasData = true;
+        for (int i = 0; i < widget.categorysS.length; i++) {
+          content = content +
+              "${widget.imagesS[i]} \n ${widget.numbersS[i]}  \n ${widget.kindsS[i]}\n ${widget.qualitysS[i]} \n ${widget.categorysS[i]} \n \n \n";
+        }
+        file_class
+            .writeData("from " + username.toString() + " : \n \n" + content);
+        content = "";
+      });
+    } else {
+      setState(() {
+        hasData = false;
+        content = "";
+        file_class.writeData(content);
+      });
+    }
+  }
+
+  bool show = false;
+  gettoshow() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      if (preferences.getStringList("images").length > 0) {
+        show = true;
+      } else {
+        show = false;
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    getuser();
+    gettoshow();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -79,8 +162,36 @@ class _CategoriesState extends State<Categories> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             centerTitle: true,
+            leading: show
+                ? IconButton(
+                    icon: Icon(
+                      Icons.shopping_cart,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      get_save_Data();
+                      share(context);
+                    })
+                : IconButton(
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    }),
             actions: <Widget>[
-              IconButton(icon: Icon(Icons.search), onPressed: () {})
+              show
+                  ? IconButton(
+                      icon: Icon(
+                        Icons.assignment,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('shop');
+                      })
+                  : SizedBox(),
+              IconButton(icon: Icon(Icons.search), onPressed: () {}),
             ],
           ),
           // drawer: MyDrawer(),

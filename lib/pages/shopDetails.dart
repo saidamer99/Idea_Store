@@ -1,5 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_extend/share_extend.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Files.dart';
 
 class ShopDetails extends StatefulWidget {
   List<String> imagesS = new List();
@@ -22,6 +28,13 @@ class ShopDetails extends StatefulWidget {
 class _ShopDetailsState extends State<ShopDetails> {
   bool hasData = false;
   final GlobalKey<AnimatedListState> _key = GlobalKey();
+  var username;
+  File_class file_class;
+  getuser() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    username = preferences.getString("User");
+    file_class = new File_class(username);
+  }
 
   clearData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -74,10 +87,63 @@ class _ShopDetailsState extends State<ShopDetails> {
     }
   }
 
+  bool show = false;
+  gettoshow() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      if (preferences.getStringList("images").length > 0) {
+        show = true;
+      } else {
+        show = false;
+      }
+    });
+  }
+
+  String content = "";
+  void share(BuildContext buildContext) async {
+    Directory dir = await getApplicationSupportDirectory();
+    File testFile = new File("${dir.path}/${username.toString()}.txt");
+    if (!await testFile.exists()) {
+      await testFile.create(recursive: true);
+    }
+    ShareExtend.share(testFile.path, "file");
+  }
+
+  get_save_Data() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    if (preferences.getStringList('images').length != 0 ||
+        preferences.getStringList("images") != null) {
+      widget.imagesS = preferences.getStringList('images');
+      widget.numbersS = preferences.getStringList('numbers');
+      widget.kindsS = preferences.getStringList('kinds');
+      widget.qualitysS = preferences.getStringList('qualitys');
+      widget.categorysS = preferences.getStringList('categorys');
+      widget.numberOfPices = widget.categorysS.length;
+
+      setState(() {
+        hasData = true;
+        for (int i = 0; i < widget.categorysS.length; i++) {
+          content = content +
+              "${widget.imagesS[i]} \n ${widget.numbersS[i]}  \n ${widget.kindsS[i]}\n ${widget.qualitysS[i]} \n ${widget.categorysS[i]} \n \n \n";
+        }
+        file_class
+            .writeData("from " + username.toString() + " : \n \n" + content);
+        content = "";
+      });
+    } else {
+      setState(() {
+        hasData = false;
+        content = "";
+        file_class.writeData(content);
+      });
+    }
+  }
+
   @override
   void initState() {
     getData();
-
+    getuser();
+    gettoshow();
     super.initState();
   }
 
@@ -98,6 +164,19 @@ class _ShopDetailsState extends State<ShopDetails> {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 centerTitle: true,
+                actions: <Widget>[
+                  show
+                      ? IconButton(
+                          icon: Icon(
+                            Icons.shopping_cart,
+                            color: Colors.white,
+                          ),
+                          onPressed: () {
+                            get_save_Data();
+                            share(context);
+                          })
+                      : SizedBox()
+                ],
               ),
             ),
             body: hasData
