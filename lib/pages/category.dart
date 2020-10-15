@@ -16,10 +16,12 @@ class Categories extends StatefulWidget {
   List<String> qualitysS = new List();
   List<String> categorysS = new List();
   static bool show = false;
-
+////////////////// here we add the coooooooooverssssss/////////////
+  ///
   List<String> imagesCat = ['images/1.jpg', 'images/2.jpg'];
   List<String> descriptionCat = ['Mayar', 'Said'];
 
+////////////////// here we add the coooooooooverssssss/////////////
   int numberOfPices;
   @override
   _CategoriesState createState() => _CategoriesState();

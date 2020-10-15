@@ -199,7 +199,15 @@ class _ShopDetailsState extends State<ShopDetails> {
                           index);
                     },
                   )
-                : Center(child: CircularProgressIndicator())));
+                : Center(
+                    child: Text(
+                    'المحفظة فارغة',
+                    style: TextStyle(
+                      color: Colors.black.withOpacity(0.3),
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ))));
   }
 
   Widget _buildItem(String numberOfPices, String kindOfMobile, String quality,
