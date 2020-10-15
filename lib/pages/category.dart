@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:app_idea/component/drawer.dart';
+import 'package:app_idea/pages/coverList.dart';
+import 'package:app_idea/pages/shopDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_extend/share_extend.dart';
@@ -14,75 +15,41 @@ class Categories extends StatefulWidget {
   List<String> kindsS = new List();
   List<String> qualitysS = new List();
   List<String> categorysS = new List();
+  static bool show = false;
+
+  List<String> imagesCat = ['images/1.jpg', 'images/2.jpg'];
+  List<String> descriptionCat = ['Mayar', 'Said'];
 
   int numberOfPices;
   @override
   _CategoriesState createState() => _CategoriesState();
 }
 
-openMusic(context) {
-  return Navigator.of(context).pushNamed('music');
-}
-
-openAnimal(context) {
-  return Navigator.of(context).pushNamed('animal');
-}
-
-openNature(context) {
-  return Navigator.of(context).pushNamed('nature');
-}
-
-openSports(context) {
-  return Navigator.of(context).pushNamed('sports');
-}
-
-openAwareness(context) {
-  return Navigator.of(context).pushNamed('awareness');
-}
-
-openLove(context) {
-  return Navigator.of(context).pushNamed('love');
-}
-
-openCouples(context) {
-  return Navigator.of(context).pushNamed('couples');
-}
-
-openGirls(context) {
-  return Navigator.of(context).pushNamed('girls');
-}
-
-openDecorations(context) {
-  return Navigator.of(context).pushNamed('decorations');
-}
-
-openGaming(context) {
-  return Navigator.of(context).pushNamed('gaming');
-}
-
-openFamous(context) {
-  return Navigator.of(context).pushNamed('famous');
-}
-
-openMovies(context) {
-  return Navigator.of(context).pushNamed('movies');
-}
-
-openJobs(context) {
-  return Navigator.of(context).pushNamed('jobs');
-}
-
-openOccasions(context) {
-  return Navigator.of(context).pushNamed('occasions');
-}
-
-openAncient(context) {
-  return Navigator.of(context).pushNamed('ancient');
-}
-
 class _CategoriesState extends State<Categories> {
   var username;
   File_class file_class;
+
+  clearData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.remove('images');
+    preferences.remove('numbers');
+    preferences.remove('kinds');
+    preferences.remove('qualitys');
+    preferences.remove('categorys');
+  }
+
+  openCat(context, List<String> imagesFun, List<String> descriptionFun,
+      String category) {
+    return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return CoverList(
+        images: imagesFun,
+        descriptions: descriptionFun,
+        category: category,
+      );
+    })).then((value) => setState(() {
+          gettoshow();
+        }));
+  }
 
   getuser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
@@ -131,14 +98,14 @@ class _CategoriesState extends State<Categories> {
     }
   }
 
-  bool show = false;
   gettoshow() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
-      if (preferences.getStringList("images").length > 0) {
-        show = true;
+      if (preferences.getStringList("images") != null &&
+          preferences.getStringList("images").length > 0) {
+        Categories.show = true;
       } else {
-        show = false;
+        Categories.show = false;
       }
     });
   }
@@ -148,6 +115,12 @@ class _CategoriesState extends State<Categories> {
     getuser();
     gettoshow();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    clearData();
+    super.dispose();
   }
 
   @override
@@ -162,7 +135,7 @@ class _CategoriesState extends State<Categories> {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             centerTitle: true,
-            leading: show
+            leading: Categories.show
                 ? IconButton(
                     icon: Icon(
                       Icons.shopping_cart,
@@ -181,14 +154,20 @@ class _CategoriesState extends State<Categories> {
                       Navigator.of(context).pop();
                     }),
             actions: <Widget>[
-              show
+              Categories.show
                   ? IconButton(
                       icon: Icon(
                         Icons.assignment,
                         color: Colors.white,
                       ),
                       onPressed: () {
-                        Navigator.of(context).pushNamed('shop');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ShopDetails()),
+                        ).then((value) => setState(() {
+                              gettoshow();
+                            }));
                       })
                   : SizedBox(),
               IconButton(icon: Icon(Icons.search), onPressed: () {}),
@@ -202,23 +181,23 @@ class _CategoriesState extends State<Categories> {
                 crossAxisCount: 2,
               ),
               children: <Widget>[
-                add_Cat('images//cat/Music.png', 'Music', openMusic),
-                add_Cat('images//cat/animal.jpg', 'Animals', openAnimal),
-                add_Cat('images//cat/nature.jpg', 'Nature', openNature),
-                add_Cat('images//cat/sport.jpg', 'Sports', openSports),
+                add_Cat('images//cat/Music.png', 'Music', 'Music'),
+                add_Cat('images//cat/animal.jpg', 'Animals', 'Animals'),
+                add_Cat('images//cat/nature.jpg', 'Nature', 'Nature'),
+                add_Cat('images//cat/sport.jpg', 'Sports', 'Sports'),
                 add_Cat('images//cat/personaldevelopment.jpg', 'Awareness',
-                    openAwareness),
-                add_Cat('images//cat/love.jpg', 'Love', openLove),
-                add_Cat('images//cat/couple.jpg', 'Couples', openCouples),
-                add_Cat('images//cat/girls.jpg', 'Girls', openGirls),
-                add_Cat('images//cat//decoration.png', "Decoration",
-                    openDecorations),
-                add_Cat('images//cat//gamer.jpg', "Gaming", openGaming),
-                add_Cat('images//cat//famous.jpg', "Famous", openFamous),
-                add_Cat('images//cat//movies.jpg', "Movies", openMovies),
-                add_Cat('images//cat//jobs.jpg', "Jobs", openJobs),
-                add_Cat('images//cat//party.jpg', "Occasions", openOccasions),
-                add_Cat('images//cat//ancient.jpg', "Ancient", openAncient),
+                    'Awareness'),
+                add_Cat('images//cat/love.jpg', 'Love', 'Love'),
+                add_Cat('images//cat/couple.jpg', 'Couples', 'Couples'),
+                add_Cat('images//cat/girls.jpg', 'Girls', 'Girls'),
+                add_Cat(
+                    'images//cat//decoration.png', "Decoration", 'Decoration'),
+                add_Cat('images//cat//gamer.jpg', "Gaming", 'Gaming'),
+                add_Cat('images//cat//famous.jpg', "Famous", 'Famous'),
+                add_Cat('images//cat//movies.jpg', "Movies", 'Movies'),
+                add_Cat('images//cat//jobs.jpg', "Jobs", 'Jobs'),
+                add_Cat('images//cat//party.jpg', "Occasions", 'Occasions'),
+                add_Cat('images//cat//ancient.jpg', "Ancient", 'Ancient'),
               ],
             ),
           ),
@@ -308,10 +287,10 @@ class _CategoriesState extends State<Categories> {
   //   );
   // }
 
-  InkWell add_Cat(String image, String description, openCategory) {
+  InkWell add_Cat(String image, String description, String cat) {
     return InkWell(
         onTap: () {
-          openCategory(context);
+          openCat(context, widget.imagesCat, widget.descriptionCat, cat);
         },
         child: Card(
           color: Colors.black,

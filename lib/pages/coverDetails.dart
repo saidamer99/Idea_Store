@@ -1,5 +1,6 @@
 import 'package:app_idea/pages/Files.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:path_provider/path_provider.dart';
 // import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +13,9 @@ class CoverDetails extends StatefulWidget {
   List<String> kindsS = new List();
   List<String> qualitysS = new List();
   List<String> categorysS = new List();
+  final String image;
+  final String category;
+  CoverDetails({this.image, this.category});
 
   int numberOfPices;
   @override
@@ -59,9 +63,14 @@ class _CoverDetailsState extends State<CoverDetails> {
     file_class = new File_class(username);
   }
 
+  Future<void> secureScreen() async {
+    await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
+  }
+
   @override
   void initState() {
     getuser();
+    secureScreen();
 
     super.initState();
   }
@@ -340,7 +349,10 @@ class _CoverDetailsState extends State<CoverDetails> {
                     ),
                   ),
                 ),
-                onTap: () {},
+                onTap: () {
+                  saveList(widget.image, 'number', 'kind', 'quality',
+                      widget.category);
+                },
               ),
             ),
             Padding(
@@ -457,20 +469,20 @@ class _CoverDetailsState extends State<CoverDetails> {
                           like = !like;
                         });
                       }),
-                  IconButton(
-                      iconSize: 30.0,
-                      icon: Icon(
-                        Icons.add,
-                        color: Colors.white,
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          saveList('images/1.jpg', 'number', 'kind', 'quality',
-                              'category');
-                          saveList('images/2.jpg', 'number', 'kind', 'quality',
-                              'category');
-                        });
-                      }),
+                  // IconButton(
+                  //     iconSize: 30.0,
+                  //     icon: Icon(
+                  //       Icons.add,
+                  //       color: Colors.white,
+                  //     ),
+                  //     onPressed: () {
+                  //       setState(() {
+                  //         saveList('images/1.jpg', 'number', 'kind', 'quality',
+                  //             'category');
+                  //         saveList('images/2.jpg', 'number', 'kind', 'quality',
+                  //             'category');
+                  //       });
+                  //     }),
                 ],
               ),
             ),
@@ -484,7 +496,7 @@ class _CoverDetailsState extends State<CoverDetails> {
     return Container(
       height: 500,
       width: MediaQuery.of(context).size.width,
-      child: GridTile(child: Image.asset('images/1.jpg')),
+      child: GridTile(child: Image.asset(widget.image)),
     );
   }
 

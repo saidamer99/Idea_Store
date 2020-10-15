@@ -1,11 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Files.dart';
+import 'category.dart';
 
 class ShopDetails extends StatefulWidget {
   List<String> imagesS = new List();
@@ -13,6 +12,7 @@ class ShopDetails extends StatefulWidget {
   List<String> kindsS = new List();
   List<String> qualitysS = new List();
   List<String> categorysS = new List();
+  bool show = false;
 
   int numberOfPices;
   ShopDetails(
@@ -34,11 +34,6 @@ class _ShopDetailsState extends State<ShopDetails> {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     username = preferences.getString("User");
     file_class = new File_class(username);
-  }
-
-  clearData() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    preferences.clear();
   }
 
   deleteItem(int index) async {
@@ -69,7 +64,7 @@ class _ShopDetailsState extends State<ShopDetails> {
 
   getData() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getStringList('images') != 0) {
+    if (preferences.getStringList('images') != null) {
       widget.imagesS = preferences.getStringList('images');
       widget.numbersS = preferences.getStringList('numbers');
       widget.kindsS = preferences.getStringList('kinds');
@@ -87,14 +82,24 @@ class _ShopDetailsState extends State<ShopDetails> {
     }
   }
 
-  bool show = false;
   gettoshow() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+
+    if (preferences.getStringList("images") != null &&
+        preferences.getStringList("images").length > 0) {
+      widget.show = true;
+    } else {
+      widget.show = false;
+    }
+  }
+
+  gettoshowBuy() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     setState(() {
       if (preferences.getStringList("images").length > 0) {
-        show = true;
+        Categories.show = true;
       } else {
-        show = false;
+        Categories.show = false;
       }
     });
   }
@@ -165,7 +170,7 @@ class _ShopDetailsState extends State<ShopDetails> {
                 ),
                 centerTitle: true,
                 actions: <Widget>[
-                  show
+                  widget.show
                       ? IconButton(
                           icon: Icon(
                             Icons.shopping_cart,
@@ -326,6 +331,8 @@ class _ShopDetailsState extends State<ShopDetails> {
                                 setState(() {
                                   _removeItem(index);
                                   deleteItem(index);
+                                  gettoshow();
+
                                   widget.numberOfPices--;
                                 });
                               })),
@@ -342,157 +349,6 @@ class _ShopDetailsState extends State<ShopDetails> {
         ),
       ),
     );
-  }
-
-  Container buildListTile(
-    int i,
-    context,
-    String image,
-    String numberOfPices,
-    String kindOfMobile,
-    String quality,
-    String caregoryOfmobile,
-  ) {
-    return Container(
-        height: 220,
-        width: 100,
-        child: Column(
-          children: <Widget>[
-            Card(
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                      flex: 1,
-                      child: Image.asset(
-                        image,
-                        filterQuality: FilterQuality.high,
-                        fit: BoxFit.cover,
-                      )),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                      height: 180,
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.vertical,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.blue,
-                              ),
-                              width: MediaQuery.of(context).size.width,
-                              child: RichText(
-                                text: TextSpan(
-                                    style: TextStyle(color: Colors.grey),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: " عدد القطع : ",
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      TextSpan(
-                                          text: numberOfPices,
-                                          style: TextStyle(color: Colors.black))
-                                    ]),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                              ),
-                              width: MediaQuery.of(context).size.width,
-                              child: RichText(
-                                text: TextSpan(
-                                    style: TextStyle(color: Colors.grey),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: "  نوع الموبايل : ",
-                                          style:
-                                              TextStyle(color: Colors.black)),
-                                      TextSpan(
-                                          text: kindOfMobile,
-                                          style: TextStyle(color: Colors.blue))
-                                    ]),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.blue,
-                              ),
-                              width: MediaQuery.of(context).size.width,
-                              child: RichText(
-                                text: TextSpan(
-                                    style: TextStyle(color: Colors.grey),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: "  الجودة : ",
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                      TextSpan(
-                                          text: quality,
-                                          style: TextStyle(color: Colors.black))
-                                    ]),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.white,
-                              ),
-                              width: MediaQuery.of(context).size.width,
-                              child: RichText(
-                                text: TextSpan(
-                                    style: TextStyle(color: Colors.grey),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: "  القسم : ",
-                                          style:
-                                              TextStyle(color: Colors.black)),
-                                      TextSpan(
-                                          text: caregoryOfmobile,
-                                          style: TextStyle(color: Colors.blue))
-                                    ]),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    child: Expanded(
-                      flex: 1,
-                      child: Center(
-                          child: IconButton(
-                              iconSize: 40.0,
-                              icon: Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _removeItem(i);
-                                  deleteItem(i);
-                                  widget.numberOfPices--;
-                                });
-                              })),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Divider(
-              thickness: 2,
-              color: Colors.red,
-            )
-          ],
-        ));
   }
 
   void _removeItem(int i) {

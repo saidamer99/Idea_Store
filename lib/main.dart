@@ -1,23 +1,10 @@
-import 'package:app_idea/pages/ancient.dart';
-import 'package:app_idea/pages/animal.dart';
-import 'package:app_idea/pages/awareness.dart';
 import 'package:app_idea/pages/category.dart';
-import 'package:app_idea/pages/couples.dart';
 import 'package:app_idea/pages/coverDetails.dart';
-import 'package:app_idea/pages/decoration.dart';
+import 'package:app_idea/pages/coverList.dart';
 import 'package:app_idea/pages/famous.dart';
-import 'package:app_idea/pages/gaming.dart';
-import 'package:app_idea/pages/girls.dart';
 import 'package:app_idea/pages/home.dart';
-import 'package:app_idea/pages/jobs.dart';
 import 'package:app_idea/pages/login.dart';
-import 'package:app_idea/pages/love.dart';
-import 'package:app_idea/pages/movies.dart';
-import 'package:app_idea/pages/music.dart';
-import 'package:app_idea/pages/nature.dart';
-import 'package:app_idea/pages/occasions.dart';
 import 'package:app_idea/pages/shopDetails.dart';
-import 'package:app_idea/pages/sport.dart';
 import 'package:app_idea/pages/start.dart';
 import 'package:app_idea/pages/startrFromHelp.dart';
 import "package:flutter/material.dart";
@@ -45,50 +32,11 @@ class MyApp extends StatelessWidget {
         'startFromHelp': (context) {
           return StartScreenFromHelp();
         },
-        'music': (context) {
-          return Music();
-        },
-        'animal': (context) {
-          return Animal();
-        },
-        'nature': (context) {
-          return Nature();
-        },
-        'sports': (context) {
-          return Sports();
-        },
-        'awareness': (context) {
-          return Awareness();
-        },
-        'love': (context) {
-          return Love();
-        },
-        'couples': (context) {
-          return Couples();
-        },
-        'girls': (context) {
-          return Girls();
-        },
-        'decorations': (context) {
-          return Decorations();
-        },
-        'gaming': (context) {
-          return Gaming();
-        },
         'famous': (context) {
           return Famous();
         },
-        'movies': (context) {
-          return Movies();
-        },
-        'jobs': (context) {
-          return Jobs();
-        },
-        'occasions': (context) {
-          return Occasions();
-        },
-        'ancient': (context) {
-          return Ancient();
+        'coverList': (context) {
+          return CoverList();
         },
         "login": (context) {
           return Login();
