@@ -1,7 +1,6 @@
 import 'package:app_idea/pages/category.dart';
 import 'package:app_idea/pages/coverDetails.dart';
 import 'package:app_idea/pages/coverList.dart';
-import 'package:app_idea/pages/famous.dart';
 import 'package:app_idea/pages/home.dart';
 import 'package:app_idea/pages/login.dart';
 import 'package:app_idea/pages/shopDetails.dart';
@@ -31,9 +30,6 @@ class MyApp extends StatelessWidget {
         },
         'startFromHelp': (context) {
           return StartScreenFromHelp();
-        },
-        'famous': (context) {
-          return Famous();
         },
         'coverList': (context) {
           return CoverList();

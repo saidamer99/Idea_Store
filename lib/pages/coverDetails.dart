@@ -2,10 +2,10 @@ import 'package:app_idea/pages/Files.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:path_provider/path_provider.dart';
-// import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:io';
 import 'package:share_extend/share_extend.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CoverDetails extends StatefulWidget {
   List<String> imagesS = new List();
@@ -59,13 +59,22 @@ class _CoverDetailsState extends State<CoverDetails> {
 
   getuser() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
-    username = preferences.getString("User");
-    file_class = new File_class(username);
+    setState(() {
+      username = preferences.getString("User");
+      file_class = new File_class(username);
+      if (username != null) {
+        issignin = true;
+      } else {
+        issignin = false;
+      }
+    });
   }
 
   Future<void> secureScreen() async {
     await FlutterWindowManager.addFlags(FlutterWindowManager.FLAG_SECURE);
   }
+
+  var issignin = false;
 
   @override
   void initState() {
@@ -151,104 +160,401 @@ class _CoverDetailsState extends State<CoverDetails> {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        body: ListView(
-          children: <Widget>[
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: 500,
-              child: Stack(
-                children: <Widget>[buildTopImage(), buildTopBar()],
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              alignment: Alignment.center,
-              height: 50,
-              decoration: BoxDecoration(
-                  color: Colors.grey, borderRadius: BorderRadius.circular(40)),
-              child: Text(
-                "ادخل تفاصيل الشراء",
-                style: TextStyle(color: Colors.white70, fontSize: 20),
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        "عدد القطع :",
-                        style: TextStyle(fontSize: 20),
-                      ),
+        body: issignin
+            ? ListView(
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 500,
+                    child: Stack(
+                      children: <Widget>[buildTopImage(), buildTopBar()],
                     ),
-                    Container(
-                        width: 40, child: Text(numberOfPhones.toString())),
-                    Expanded(
-                        child: Container(
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.redAccent,
+                        borderRadius: BorderRadius.circular(40)),
+                    child: Text(
+                      "ادخل تفاصيل الشراء",
+                      style: TextStyle(color: Colors.white70, fontSize: 20),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Row(
                         children: <Widget>[
                           Expanded(
-                              child: IconButton(
-                            icon: Icon(
-                              Icons.add,
-                              color: Colors.white,
+                            child: Text(
+                              "عدد القطع :",
+                              style: TextStyle(fontSize: 20),
                             ),
-                            onPressed: () {
-                              setState(() {
-                                numberOfPhones++;
-                              });
-                            },
-                          )),
+                          ),
+                          Container(
+                              width: 40,
+                              child: Text(numberOfPhones.toString())),
                           Expanded(
-                              child: IconButton(
-                            icon: Icon(
-                              Icons.minimize,
-                              color: Colors.white,
+                              child: Container(
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: IconButton(
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      numberOfPhones++;
+                                    });
+                                  },
+                                )),
+                                Expanded(
+                                    child: IconButton(
+                                  icon: Icon(
+                                    Icons.minimize,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      if (numberOfPhones != 0) numberOfPhones--;
+                                    });
+                                  },
+                                )),
+                              ],
                             ),
-                            onPressed: () {
-                              setState(() {
-                                if (numberOfPhones != 0) numberOfPhones--;
-                              });
-                            },
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20))),
+                          ))
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "نوع الموبايل :",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          Expanded(
+                              child: Container(
+                            child: Dropdowntype(spinnerItemstype),
                           )),
                         ],
                       ),
-                      decoration: BoxDecoration(
-                          color: Colors.redAccent[100],
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(20))),
-                    ))
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        "نوع الموبايل :",
-                        style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                  show
+                      ? Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                  child: Text(
+                                    "الموديل :",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
+                                ),
+                                Expanded(
+                                    child: Container(
+                                  child: Dropdownmodel(spinnerItemsmodel),
+                                )),
+                              ],
+                            ),
+                          ),
+                        )
+                      : SizedBox(
+                          height: 50,
+                        ),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                        Text(
+                          "الجودة :",
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Wrap(
+                              children: <Widget>[
+                                Container(
+                                  child: Column(
+                                    children: choises
+                                        .map((data) => RadioListTile(
+                                              title: Text('${data.choise}'),
+                                              groupValue: default_index,
+                                              value: data.index,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  default_Choise = data.choise;
+                                                  default_index = data.index;
+                                                  choose = data.choise;
+                                                });
+                                              },
+                                              activeColor: Colors.redAccent,
+                                            ))
+                                        .toList(),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.blueGrey,
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20))),
+                        height: 50,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.shop,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                " طلب التصميم",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        if (numberOfPhones != 0 &&
+                            dropdownValuetype != "لاشيء" &&
+                            dropdownValuemodel != "لاشيء") {
+                          saveList(
+                              widget.image,
+                              numberOfPhones.toString(),
+                              "\n" +
+                                  dropdownValuetype +
+                                  " : " +
+                                  dropdownValuemodel,
+                              default_Choise,
+                              widget.category);
+
+                          /////////////مسج تم اضافة التصميم
+
+                          setState(() {
+                            numberOfPhones = 0;
+                            dropdownValuetype = "لاشيء";
+                            dropdownValuemodel = "لاشيء";
+                            show = false;
+                            Fluttertoast.showToast(
+                                msg: "تم اضافة التصميم الى قائمة متطلباتك",
+                                gravity: ToastGravity.CENTER,
+                                toastLength: Toast.LENGTH_SHORT,
+                                timeInSecForIosWeb: 1);
+                          });
+                        } else {
+                          showAlertDialog(context);
+                        }
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.blue,
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20))),
+                        height: 50,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.assignment,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                " قائمة طلباتك",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.of(context).pushNamed('shop');
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: InkWell(
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.redAccent,
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20))),
+                        height: 50,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.shopping_cart,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                " إرسال الطلبية",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        get_save_Data();
+                        share(context);
+                      },
+                    ),
+                  ),
+                ],
+              )
+
+            ////////////////////////////////////////////////////
+            ///
+            ///
+            ///
+            ///
+            : ListView(
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 500,
+                    child: Stack(
+                      children: <Widget>[buildTopImage(), buildTopBar()],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    height: 50,
+                    decoration: BoxDecoration(
+                        color: Colors.grey[300],
+                        borderRadius: BorderRadius.circular(40)),
+                    child: Text(
+                      "ادخل تفاصيل الشراء",
+                      style: TextStyle(color: Colors.white70, fontSize: 20),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "عدد القطع :",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                          Container(
+                              width: 40,
+                              child: Text(numberOfPhones.toString())),
+                          Expanded(
+                              child: Container(
+                            child: Row(
+                              children: <Widget>[
+                                Expanded(
+                                    child: IconButton(
+                                  icon: Icon(
+                                    Icons.add,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {},
+                                )),
+                                Expanded(
+                                    child: IconButton(
+                                  icon: Icon(
+                                    Icons.minimize,
+                                    color: Colors.white,
+                                  ),
+                                  onPressed: () {},
+                                )),
+                              ],
+                            ),
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.vertical(
+                                    top: Radius.circular(20))),
+                          ))
+                        ],
                       ),
                     ),
-                    Expanded(
-                        child: Container(
-                      child: Dropdowntype(spinnerItemstype),
-                    )),
-                  ],
-                ),
-              ),
-            ),
-            show
-                ? Container(
+                  ),
+                  Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: <Widget>[
+                          Expanded(
+                            child: Text(
+                              "نوع الموبايل :",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Row(
@@ -259,167 +565,150 @@ class _CoverDetailsState extends State<CoverDetails> {
                               style: TextStyle(fontSize: 20),
                             ),
                           ),
-                          Expanded(
-                              child: Container(
-                            child: Dropdownmodel(spinnerItemsmodel),
-                          )),
                         ],
                       ),
                     ),
-                  )
-                : SizedBox(
-                    height: 50,
                   ),
-            Container(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                children: <Widget>[
-                  Divider(
-                    color: Colors.grey,
-                  ),
-                  Divider(
-                    color: Colors.grey,
-                  ),
-                  Text(
-                    "الجودة :",
-                    style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Wrap(
-                        children: <Widget>[
-                          Container(
-                            child: Column(
-                              children: choises
-                                  .map((data) => RadioListTile(
-                                        title: Text('${data.choise}'),
-                                        groupValue: default_index,
-                                        value: data.index,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            default_Choise = data.choise;
-                                            default_index = data.index;
-                                            choose = data.choise;
-                                          });
-                                        },
-                                        activeColor: Colors.redAccent,
-                                      ))
-                                  .toList(),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    child: Column(
+                      children: <Widget>[
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                        Text(
+                          "الجودة :",
+                          style: TextStyle(
+                              color: Colors.blue,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Wrap(
+                              children: <Widget>[
+                                Container(
+                                  child: Column(
+                                    children: choises
+                                        .map((data) => RadioListTile(
+                                              title: Text('${data.choise}'),
+                                              groupValue: [0, 1, 2],
+                                              value: data.index,
+                                              selected: true,
+                                              onChanged: (value) {},
+                                              activeColor: Colors.grey,
+                                            ))
+                                        .toList(),
+                                  ),
+                                )
+                              ],
                             ),
-                          )
-                        ],
+                          ],
+                        ),
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                        Divider(
+                          color: Colors.grey,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20))),
+                        height: 50,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.shop,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                " طلب التصميم",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    ],
+                      onTap: () {},
+                    ),
                   ),
-                  Divider(
-                    color: Colors.grey,
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20))),
+                        height: 50,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.assignment,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                " قائمة طلباتك",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
                   ),
-                  Divider(
-                    color: Colors.grey,
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: InkWell(
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(20))),
+                        height: 50,
+                        child: Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Icon(
+                                Icons.shopping_cart,
+                                color: Colors.white,
+                              ),
+                              Text(
+                                " إرسال الطلبية",
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
                   ),
                 ],
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.blueGrey,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20))),
-                  height: 50,
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.shop,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          " طلب التصميم",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                onTap: () {
-                  saveList(widget.image, 'number', 'kind', 'quality',
-                      widget.category);
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20))),
-                  height: 50,
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.assignment,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          " قائمة طلباتك",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                onTap: () {
-                  Navigator.of(context).pushNamed('shop');
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: InkWell(
-                child: Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                      color: Colors.redAccent,
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(20))),
-                  height: 50,
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Icon(
-                          Icons.shopping_cart,
-                          color: Colors.white,
-                        ),
-                        Text(
-                          " إرسال الطلبية",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                onTap: () {
-                  get_save_Data();
-                  share(context);
-                },
-              ),
-            ),
-          ],
-        ),
       ),
     );
   }
@@ -496,7 +785,11 @@ class _CoverDetailsState extends State<CoverDetails> {
     return Container(
       height: 500,
       width: MediaQuery.of(context).size.width,
-      child: GridTile(child: Image.asset(widget.image)),
+      child: GridTile(
+          child: Image.asset(
+        widget.image,
+        fit: BoxFit.cover,
+      )),
     );
   }
 
@@ -522,7 +815,7 @@ class _CoverDetailsState extends State<CoverDetails> {
             style: TextStyle(color: Colors.red, fontSize: 18),
             underline: Container(
               height: 2,
-              color: Colors.deepPurpleAccent,
+              color: Colors.blue,
             ),
             onChanged: (String data) {
               setState(() {
@@ -559,7 +852,7 @@ class _CoverDetailsState extends State<CoverDetails> {
             style: TextStyle(color: Colors.red, fontSize: 18),
             underline: Container(
               height: 2,
-              color: Colors.deepPurpleAccent,
+              color: Colors.blue,
             ),
             onChanged: (String data) {
               setState(() {
@@ -580,6 +873,36 @@ class _CoverDetailsState extends State<CoverDetails> {
           ),
         ]),
       ),
+    );
+  }
+
+  showAlertDialog(BuildContext context) {
+    Widget okButton = FlatButton(
+      child: Text("حسنا"),
+      onPressed: () {
+        setState(() {
+          Navigator.of(context).pop();
+        });
+      },
+    );
+
+    AlertDialog alert = AlertDialog(
+        backgroundColor: Colors.black45,
+        content: Text(
+          "قم بإدخال تفاصيل الشراء ",
+          style: TextStyle(color: Colors.white70),
+          textAlign: TextAlign.center,
+        ),
+        actions: [
+          okButton,
+        ]);
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
     );
   }
 }

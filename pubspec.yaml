@@ -35,6 +35,8 @@ dependencies:
   path_provider: ^1.6.18
   share_extend: ^1.0.4
   flutter_windowmanager: ^0.0.2
+  fluttertoast: ^4.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -66,6 +68,8 @@ flutter:
     - images/s1.jpg
     - images/s2.jpg
     - images/s3.jpg
+    - images/cat1.jpg
+    - images/cat2.jpg
     - images/cat/sport.jpg
     - images/cat/couple.jpg
     - images/cat/jobs.jpg

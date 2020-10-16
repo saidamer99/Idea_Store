@@ -84,13 +84,12 @@ class _CoverListState extends State<CoverList> {
             height: 400,
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
                       color: Colors.grey, blurRadius: 5, spreadRadius: 0.4)
                 ],
                 image: new DecorationImage(
-                    fit: BoxFit.contain, image: AssetImage(image))),
+                    fit: BoxFit.cover, image: AssetImage(image))),
             child: Stack(
               alignment: Alignment.center,
               children: <Widget>[
