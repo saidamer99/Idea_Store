@@ -18,8 +18,16 @@ class Categories extends StatefulWidget {
   static bool show = false;
 ////////////////// here we add the coooooooooverssssss/////////////
   ///
-  List<String> imagesCat = ['images/cat1.jpg', 'images/cat2.jpg'];
-  List<String> descriptionCat = ['Mayar', 'Said'];
+  List<String> imagesCat = [
+    'images/cat1.jpg',
+    'images/pomm.jpg',
+    'images/messi.jpg',
+    'images/ramos.jpg',
+    'images/dog.jpg',
+    'images/camera.jpg',
+    'images/poma.jpg',
+  ];
+  List<String> descriptionCat = ['1', '2', '3', '4', '5', '6', '7'];
 
 ////////////////// here we add the coooooooooverssssss/////////////
   int numberOfPices;

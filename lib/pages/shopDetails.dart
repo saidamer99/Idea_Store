@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,6 +61,11 @@ class _ShopDetailsState extends State<ShopDetails> {
     preferences.setStringList('kinds', kinds);
     preferences.setStringList('qualitys', qualitys);
     preferences.setStringList('categorys', categorys);
+    Fluttertoast.showToast(
+        msg: "تم ازالة التصميم ",
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        toastLength: Toast.LENGTH_SHORT);
   }
 
   getData() async {

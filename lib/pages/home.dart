@@ -23,9 +23,19 @@ class _HomeState extends State<Home> {
     }
   }
 
+  clearData() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.remove('images');
+    preferences.remove('numbers');
+    preferences.remove('kinds');
+    preferences.remove('qualitys');
+    preferences.remove('categorys');
+  }
+
   @override
   void initState() {
     getStart();
+    clearData();
     super.initState();
   }
 

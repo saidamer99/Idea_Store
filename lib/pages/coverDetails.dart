@@ -370,9 +370,9 @@ class _CoverDetailsState extends State<CoverDetails> {
                               widget.image,
                               numberOfPhones.toString(),
                               "\n" +
-                                  dropdownValuetype +
+                                  dropdownValuetype.toString() +
                                   " : " +
-                                  dropdownValuemodel,
+                                  dropdownValuemodel.toString(),
                               default_Choise,
                               widget.category);
 
