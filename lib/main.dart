@@ -1,8 +1,11 @@
+import 'package:app_idea/pages/Aboutapp.dart';
 import 'package:app_idea/pages/category.dart';
 import 'package:app_idea/pages/coverDetails.dart';
 import 'package:app_idea/pages/coverList.dart';
 import 'package:app_idea/pages/home.dart';
 import 'package:app_idea/pages/login.dart';
+import 'package:app_idea/pages/order.dart';
+import 'package:app_idea/pages/orderdetails.dart';
 import 'package:app_idea/pages/shopDetails.dart';
 import 'package:app_idea/pages/start.dart';
 import 'package:app_idea/pages/startrFromHelp.dart';
@@ -42,6 +45,15 @@ class MyApp extends StatelessWidget {
         },
         "shop": (context) {
           return ShopDetails();
+        },
+        "about": (context) {
+          return About(); /////////////////////////////////////////////////////////////
+        },
+        "order": (context) {
+          return Order(); /////////////////////////////////////////////////////////////
+        },
+        "go_order": (context) {
+          return OrderDetails(); /////////////////////////////////////////////////////////////
         }
       },
     );

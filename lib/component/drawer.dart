@@ -124,7 +124,9 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
             ),
             ListTile(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed("about");
+              },
               trailing: Icon(
                 Icons.arrow_forward_ios,
                 color: Colors.white70,
@@ -135,6 +137,23 @@ class _MyDrawerState extends State<MyDrawer> {
               ),
               title: Text(
                 "حول التطبيق",
+                style: TextStyle(fontSize: 15, color: Colors.white70),
+              ),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.of(context).pushNamed("order");
+              },
+              trailing: Icon(
+                Icons.arrow_forward_ios,
+                color: Colors.white70,
+              ),
+              leading: Icon(
+                Icons.attach_file,
+                color: Colors.white70,
+              ),
+              title: Text(
+                "طلب خاص ",
                 style: TextStyle(fontSize: 15, color: Colors.white70),
               ),
             ),

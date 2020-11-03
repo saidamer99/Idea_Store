@@ -36,7 +36,8 @@ dependencies:
   share_extend: ^1.0.4
   flutter_windowmanager: ^0.0.2
   fluttertoast: ^4.0.0
-
+  font_awesome_flutter: ^8.10.0
+  image_picker: ^0.5.2
 
 dev_dependencies:
   flutter_test:
@@ -95,6 +96,10 @@ flutter:
     - images/programming.jpg
     - images/ramos.jpg
     - images/camera.jpg
+    - images/about.jpg
+    - images/or1.jpg
+    - images/or2.jpg
+    - images/or3.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
