@@ -9,7 +9,6 @@ class About extends StatefulWidget {
 class _AboutState extends State<About> {
   @override
   void dispose() {
-    // TODO: implement dispose
     Navigator.pop(context);
 
     super.dispose();

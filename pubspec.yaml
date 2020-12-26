@@ -38,6 +38,7 @@ dependencies:
   fluttertoast: ^4.0.0
   font_awesome_flutter: ^8.10.0
   image_picker: ^0.5.2
+  dio: ^3.0.10
 
 dev_dependencies:
   flutter_test:

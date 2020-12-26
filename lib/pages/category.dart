@@ -1,12 +1,10 @@
 import 'dart:io';
-
 import 'package:app_idea/pages/coverList.dart';
 import 'package:app_idea/pages/shopDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'Files.dart';
 
 class Categories extends StatefulWidget {
@@ -213,89 +211,6 @@ class _CategoriesState extends State<Categories> {
           ),
         ));
   }
-
-  // InkWell buildCat(String image, String centerText, String description) {
-  //   return InkWell(
-  //     onTap: () {},
-  //     child: Card(
-  //       child: Container(
-  //           height: 400,
-  //           width: MediaQuery.of(context).size.width,
-  //           child: Column(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             crossAxisAlignment: CrossAxisAlignment.center,
-  //             children: <Widget>[
-  //               Stack(
-  //                 children: <Widget>[
-  //                   Container(
-  //                       width: MediaQuery.of(context).size.width,
-  //                       height: 400,
-  //                       decoration: BoxDecoration(
-  //                           boxShadow: [
-  //                             BoxShadow(
-  //                                 color: Colors.black,
-  //                                 blurRadius: 4,
-  //                                 spreadRadius: 0.4)
-  //                           ],
-  //                           image: new DecorationImage(
-  //                               fit: BoxFit.fill, image: AssetImage(image)))),
-  //                   Center(
-  //                     child: Positioned(
-  //                       // right: MediaQuery.of(context).size.width / 2.5,
-  //                       // top: 250,
-  //                       child: Container(
-  //                         padding: EdgeInsets.all(1),
-  //                         decoration: BoxDecoration(
-  //                           color: Colors.white70.withOpacity(0.001),
-  //                           borderRadius: BorderRadius.circular(10),
-  //                           boxShadow: [
-  //                             BoxShadow(
-  //                                 color: Colors.black,
-  //                                 blurRadius: 4,
-  //                                 spreadRadius: 0.4)
-  //                           ],
-  //                         ),
-  //                         child: Center(
-  //                           child: Text(
-  //                             centerText,
-  //                             style:
-  //                                 TextStyle(color: Colors.white, fontSize: 20),
-  //                           ),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   Positioned(
-  //                     bottom: 10,
-  //                     left: 15,
-  //                     right: 15,
-  //                     child: Container(
-  //                       padding: EdgeInsets.all(5),
-  //                       width: MediaQuery.of(context).size.width,
-  //                       decoration: BoxDecoration(
-  //                           color: Colors.lightBlueAccent[100],
-  //                           boxShadow: [
-  //                             BoxShadow(
-  //                                 color: Colors.black,
-  //                                 blurRadius: 4,
-  //                                 spreadRadius: 0.4)
-  //                           ],
-  //                           borderRadius: BorderRadius.circular(10)),
-  //                       child: Center(
-  //                         child: Text(
-  //                           description,
-  //                           style: TextStyle(color: Colors.white, fontSize: 15),
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   )
-  //                 ],
-  //               )
-  //             ],
-  //           )),
-  //     ),
-  //   );
-  // }
 
   InkWell add_Cat(String image, String description, String cat) {
     return InkWell(
